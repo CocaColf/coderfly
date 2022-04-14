@@ -6,7 +6,9 @@ Find function-level association impacts of code changes.
 
 ## Background
 
-When you modify the code of a large project, it may not be very clear whether it will have an impact on the functionality.Our self-test may not be enough, and we need to search a lot of related code to determine the impact of the change. Wouldn't it save a lot of time and improve the quality of self-testing if there was a tool that could identify your changes and automatically find out what you affected by the change? That's the problem this project is trying to solve.
+When you modify the code of a large project, it may not be very clear whether it will have an impact on the functionality.Our self-test may not be enough, and we need to search a lot of related code to determine the impact of the change. Wouldn't it save a lot of time and improve the quality of self-testing if there was a tool that could identify your changes and automatically find out what you affected by the change? 
+
+That's the problem this project is trying to solve.
 
 It can analyze the changes of the function by the changes of the file.
 
