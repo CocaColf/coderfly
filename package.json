@@ -1,0 +1,31 @@
+{
+  "name": "coderfly",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "rm -rf dist/ && tsc && find ./dist -type f|xargs dos2unix",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
+  },
+  "devDependencies": {
+    "@types/n-readlines": "^1.0.3",
+    "@types/node": "^17.0.22",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
+    "eslint": "^8.13.0",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.17.8",
+    "@types/lodash-es": "^4.17.6",
+    "enhanced-resolve": "^5.9.2",
+    "execa": "^6.1.0",
+    "lodash-es": "^4.17.21",
+    "n-readlines": "^1.0.1",
+    "parse-git-diff": "^0.0.6",
+    "recast": "^0.20.5",
+    "vue-template-compiler": "^2.6.14"
+  }
+}

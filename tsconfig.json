@@ -1,0 +1,22 @@
+{   
+    "compilerOptions": {
+        "outDir": "./dist",
+        "declaration": false,
+        "target": "es6",
+        "module": "EsNext",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "strict": true,
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "lib": [
+            "es2018"
+        ]
+        // "downlevelIteration": true,
+    },
+    "include": [
+        "./src/**/*.ts",
+    ]
+}
