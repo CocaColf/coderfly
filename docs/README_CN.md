@@ -28,15 +28,21 @@
 
 ## 使用
 
+**使用命令行**
+
+`coderfly check <folder path>`
+
+参数:
+
+- `alias`: 设置路径别名, 别名和路径要以 **:** 连接。示例： `coderfly check ./src -alias src:./src static:./public`
+
+- `t` 或者 `tree`: 将文件树以文件形式输出，默认为 `file_tree.json`。 示例： `coderfly check ./src -t`
+
+![command line](./pics/command_line.png)
+
 **使用 API**
 
 可以参考 [API](#api) 或者[示例代码](#示例)
-
-**使用命令行**
-
-> 当前还未实现
-
-- [ ] 使用命令行 `cci check <folder path>`
 
 ## API 
 

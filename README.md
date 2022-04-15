@@ -30,16 +30,21 @@ This project is still under development and has not been published to the npm ye
 
 ## Usage
 
+**Using the command line**
+
+`coderfly check <folder path>`
+
+Options:
+
+- alias: Set path alias, alias and path should be linked with a **colon**. eg: `coderfly check ./src -alias src:./src static:./public`
+
+- t or tree: Export the file tree to a file, the file defaults to `file_tree.json`. eg: `coderfly check ./src -t`
+
+![command line](./docs/pics/command_line.png)
+
 **Using the API**
 
 see the [API](#api) or [Example](#example).
-
-**Using the command line**
-
-> Not yet finished
-
-- [ ] Using command line: `cci check <folder path>`
-
 ## API
 
 ### diff

@@ -4,6 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "coderfly": "bin/coderfly.js"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
   "scripts": {
     "build": "rm -rf dist/ && tsc && find ./dist -type f|xargs dos2unix",
     "lint": "eslint . --ext .ts",
@@ -20,10 +27,12 @@
   "dependencies": {
     "@babel/parser": "^7.17.8",
     "@types/lodash-es": "^4.17.6",
+    "commander": "^9.1.0",
     "enhanced-resolve": "^5.9.2",
     "execa": "^6.1.0",
     "lodash-es": "^4.17.21",
     "n-readlines": "^1.0.1",
+    "ora": "^6.1.0",
     "parse-git-diff": "^0.0.6",
     "recast": "^0.20.5",
     "vue-template-compiler": "^2.6.14"
