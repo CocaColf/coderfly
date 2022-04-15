@@ -36,9 +36,9 @@ This project is still under development and has not been published to the npm ye
 
 Options:
 
-- alias: Set path alias, alias and path should be linked with a **colon**. eg: `coderfly check ./src -alias src:./src static:./public`
+- `alias`: Set path alias, alias and path should be linked with a **colon**. eg: `coderfly check ./src -alias src:./src static:./public`
 
-- t or tree: Export the file tree to a file, the file defaults to `file_tree.json`. eg: `coderfly check ./src -t`
+- `t` or `tree`: Export the file tree to a file, the file defaults to `file_tree.json`. eg: `coderfly check ./src -t`
 
 ![command line](./docs/pics/command_line.png)
 
