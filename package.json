@@ -1,8 +1,9 @@
 {
   "name": "coderfly",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "description": "Find function-level association impacts of code changes",
+  "version": "0.1.0",
+  "author": "CocaColf <cocacolf@gmail.com>",
+  "main": "dist/index.js",
   "type": "module",
   "bin": {
     "coderfly": "bin/coderfly.js"
@@ -11,6 +12,11 @@
     "bin",
     "dist"
   ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CocaColf/coderfly"
+  },
   "scripts": {
     "build": "rm -rf dist/ && tsc && find ./dist -type f|xargs dos2unix",
     "lint": "eslint . --ext .ts",
