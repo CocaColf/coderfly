@@ -9,12 +9,19 @@ import { DiffFunctionInfo, FunctionInfo } from '../../type';
 
 // get the change of function before and after file change 
 export function getFunctionDiffInfo (filePath: string, commitSha?: string) {
-    const functionInfoNow = getFunctionBlock(filePath);
-
     let functionInfoBefore;
+    let functionInfoNow;
+
+    if (!fs.existsSync(filePath)) {  // file deleted
+        functionInfoNow = {};
+    } else {
+        functionInfoNow = getFunctionBlock(filePath);
+    }
+
     const blobId = getFileCtxBeforeChange(filePath, commitSha);
     if (!blobId) {
-        functionInfoBefore = functionInfoNow;
+        // treat it as a new file
+        functionInfoBefore = {};
     } else {
         const beforeCtx = execaCommandSync(`git cat-file blob ${blobId}`).stdout;
         const tempFile = `./temp_${path.posix.basename(filePath)}`;
