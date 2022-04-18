@@ -40,6 +40,18 @@ Options:
 
 - `t` or `tree`: Export the file tree to a file, the file defaults to `file_tree.json`. eg: `coderfly check ./src -t`
 
+Configuration file:
+
+You can also write configuration file named `.coderflyrc`, mainly to simplify alias. Note: **It must be written in json form**.
+
+```js
+// .coderflyrc
+{
+    "src": "./test",
+    // ...
+}
+```
+
 ![command line](./docs/pics/command_line.png)
 
 **Using the API**
