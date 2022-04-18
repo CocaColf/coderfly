@@ -38,6 +38,18 @@
 
 - `t` 或者 `tree`: 将文件树以文件形式输出，默认为 `file_tree.json`。 示例： `coderfly check ./src -t`
 
+配置文件：
+
+你也可以编写 `.coderflyrc` 配置文件，这样更方便 alias 的书写。注意：**这个文件要编写为 json 形式**。
+
+```js
+// .coderflyrc
+{
+    "src": "./test",
+    // ...
+}
+```
+
 ![command line](./pics/command_line.png)
 
 **使用 API**

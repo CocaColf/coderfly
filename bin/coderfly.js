@@ -9,6 +9,7 @@ import { diff, getAllFiles, getFuncTree, getImpacts } from '../dist/index.js';
 const require = createRequire(import.meta.url);
 const pkg = require('../package.json');
 
+const CONFIG_FILENAME = '.coderflyrc';
 const TREE_FILE = path.resolve(process.cwd(), './file_tree.json');
 const REPORT_FILE = path.resolve(process.cwd(), './impact_report.json');
 const newsBoy = ora();
@@ -27,11 +28,24 @@ program
         let alias = {};
 
         if (options.alias) {
-            alias = parseAlias(options.alias);
+            alias = parseAliasFromOptions(options.alias);
+        } else {
+            const configFolder = lookFileOrFolderUp(CONFIG_FILENAME, path.resolve(process.cwd(), srcPath));
+
+            if (configFolder) {
+                let configFile = path.resolve(configFolder, CONFIG_FILENAME);
+
+                try {
+                    let config = JSON.parse(fs.readFileSync(configFile));
+                    alias = parseAliasFromConfig(config);
+                } catch (error){
+                    // do nothing
+                }
+            }
         }
 
         const functionDiffInfo = diff();
-        newsBoy.succeed(' Function diff completed ');
+        newsBoy.succeed(' Function diff completed ');     
 
         const files = getAllFiles(path.resolve(process.cwd(), srcPath));
 
@@ -41,7 +55,7 @@ program
         newsBoy.succeed(' File tree build completed ');
         if (options.tree) {
             fs.writeFileSync(TREE_FILE, JSON.stringify(tree, null, 4));
-            newsBoy.info(`You can check file tree from ${TREE_FILE}`);
+            newsBoy.info(` You can check file tree from ${TREE_FILE} `);
         }
 
         let allFunctions = [];
@@ -67,12 +81,12 @@ program
         
         fs.writeFileSync(REPORT_FILE, JSON.stringify(impactReport, null, 4));
 
-        newsBoy.info(`Job done! You can check the result from ${REPORT_FILE}`);
+        newsBoy.info(` Job done! You can check the result from ${REPORT_FILE} `);
     });
 
 program.parse(process.argv);
 
-function parseAlias (alias) {
+function parseAliasFromOptions (alias) {
     let result = {};
     if (typeof alias === 'string') {
         alias = [alias];
@@ -95,4 +109,40 @@ function parseAlias (alias) {
 
     return result;
 }
+
+function parseAliasFromConfig (config) {
+    Object.keys(config).forEach(alias => {
+        config[alias] = path.resolve(process.cwd(), config[alias]);
+    });
+
+    return config;
+}
+
+function lookFileOrFolderUp (target, baseDir) {
+    const cwd = process.cwd();
+    let oldPath = '';
+    let newPath;
+
+    if (baseDir) {
+        if (path.isAbsolute(baseDir)) {
+            newPath = baseDir;
+        } else {
+            newPath = path.resolve(cwd, baseDir);
+        }
+    } else {
+        newPath = cwd;
+    }
+
+    while (oldPath !== newPath) {
+        oldPath = newPath;
+        const files = fs.readdirSync(newPath);
+        for (const file of files) {
+            if (file === target) {
+                return newPath;
+            }
+        }
+        newPath = path.dirname(oldPath);
+    }
+    return '';
+};
 
