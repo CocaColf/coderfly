@@ -21,6 +21,7 @@ function getImpacts (treeData: FileInfoTree, funcInfo: ImpactReason) {
 
     let callList = [funcInfo] as ImpactReason[];
     const impactReport = [];
+    const templateFragmentCache: string[] = [];
 
     while (callList.length) {
         const curFuncInfo = callList.shift();
@@ -29,7 +30,7 @@ function getImpacts (treeData: FileInfoTree, funcInfo: ImpactReason) {
             continue;
         }
 
-        const { theyCallYou } = findWhoCallMe(treeData, curFuncInfo, templateImpact);
+        const { theyCallYou } = findWhoCallMe(treeData, curFuncInfo, templateImpact, templateFragmentCache);
         const [ isCircular, miniPath ] = handleCircularPath(curFuncInfo.paths);
 
         if (!theyCallYou.length) {  // the end of function call stack
@@ -58,7 +59,7 @@ function getImpacts (treeData: FileInfoTree, funcInfo: ImpactReason) {
 }
 
 // find a function called by which function 
-function findWhoCallMe (treeData: FileInfoTree, funcInfo: ImpactReason, reportInfo=[] as TemplateImpactResult[]) {
+function findWhoCallMe (treeData: FileInfoTree, funcInfo: ImpactReason, reportInfo=[] as TemplateImpactResult[], templateFragmentCache=[] as string[]) {
     const theyCallYou = [] as FuncCallSearchResult[];
 
     const curFilePath = funcInfo.filePath;
@@ -66,7 +67,6 @@ function findWhoCallMe (treeData: FileInfoTree, funcInfo: ImpactReason, reportIn
     const curPaths = funcInfo.paths;
 
     // these found functions are used to find the impact of template
-    // TODO: there is a bug: a same dom node will be found and push to the array twice
     const templateImpactSearchFunc: NameAndPath = {
         [funcName]: curFilePath
     };
@@ -106,10 +106,25 @@ function findWhoCallMe (treeData: FileInfoTree, funcInfo: ImpactReason, reportIn
         // find if the function in the paths is used in the template
         if (templateKeyInfo && templateKeyInfo.length) {
             const domInfo = getTemplateImpact(templateKeyInfo, templateImpactSearchFunc);
-            domInfo.length && reportInfo.push({
-                filePath: treeData[fileInfo].file,
-                domInfo
-            });
+            for (const item of domInfo) {
+                const filePath = treeData[fileInfo].file;
+                
+                // fix bug: template impact report has duplicate dom node(s) sometimes.
+                // because: if a -> b, first search: templateImpactSearchFunc contains a, theyCallYou contains b, then find dom node where use b
+                // second search: callList has b, so templateImpactSearchFunc contains b, theyCallYou is empty, then also find dom node where use b
+                // using a cache to record found domFragments
+                const cache = `${filePath}-${item.curPath}-${item.nodeInfo.funcName}`;
+                if (templateFragmentCache.includes(cache)) {
+                    continue;
+                }
+
+                templateFragmentCache.push(cache);
+
+                reportInfo.push({
+                    filePath: treeData[fileInfo].file,
+                    domInfo
+                });
+            }
         }
 
     }
