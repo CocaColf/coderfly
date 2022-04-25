@@ -51,6 +51,7 @@ You can also write configuration file named `.coderflyrc`, mainly to simplify al
     // ...
 }
 ```
+> The results are written to the impact_report.json file in the directory where the command was executed
 
 ![command line](./docs/pics/command_line.png)
 
@@ -116,10 +117,19 @@ interface ImpactReason {
 }
 ```
 
+### matchVueVersion
+
+Since the use of `vue-template-compiler` must be consistent with the `vue` version, otherwise an error will be reported, you must keep them both consistent before using `coderfly`. You can either manually install the corresponding version of `vue-template-compiler` in your project yourself, or you can use the API to do this in your code. Note that this operation needs to be called before using the other APIs.
+
 ## Example
 
 ```js
-import { diff, getAllFiles, getFuncTree, getImpacts } from "coderfly";
+// if necessary
+const { matchVueVersion } = require('coderfly/dist/match_version');
+
+matchVueVersion();
+
+const { diff, getAllFiles, getFuncTree, getImpacts } = require('coderfly');
 
 // diff
 const functionDiffInfo = diff();

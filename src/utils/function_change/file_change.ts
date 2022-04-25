@@ -1,11 +1,11 @@
-import { execaCommandSync } from 'execa';
+import { commandSync } from 'execa';
 import { FileChange } from '../../type';
 
 const COMMANDS = ['git diff --name-status', 'git diff --name-status --staged'];
 
 const formatList = (str: string, type: string) => {
     const arr = str.split('\n').filter(item => {
-        const regex = new RegExp(`[${type}].*`)
+        const regex = new RegExp(`[${type}].*`);
         if (regex.test(item)) {
           return item !== undefined;
         }
@@ -23,7 +23,7 @@ export function getFileChange () {
     const typeList = ['M', 'D', 'A'];
     
     for (const command of COMMANDS) {
-      const changeInfo = execaCommandSync(command).stdout;
+      const changeInfo = commandSync(command).stdout;
 
       typeList.forEach(type => {
         const formatResult = formatList(changeInfo, type);

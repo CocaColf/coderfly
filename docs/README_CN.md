@@ -50,6 +50,8 @@
 }
 ```
 
+> 分析结果会写入在执行命令的目录下的 impact_report.json 文件中
+
 ![command line](./pics/command_line.png)
 
 **使用 API**
@@ -115,10 +117,20 @@ interface ImpactReason {
 }
 ```
 
+### matchVueVersion
+
+由于 `vue-template-compiler` 的使用必须保持和 `vue` 版本一致，否则会报错，因此在使用 `coderfly` 前必须将二者保持一致。你可以自己手动在项目中安装对应的 `vue-template-compiler` 版本，也可以使用该 API 在代码中完成此操作。注意此操作需要在使用其他 API 之前调用
+
+
 ## 示例
 
 ```js
-import { diff, getAllFiles, getFuncTree, getImpacts } from "coderfly";
+// 如果有必要
+const { matchVueVersion } = require('coderfly/dist/match_version');
+
+matchVueVersion();
+
+const { diff, getAllFiles, getFuncTree, getImpacts } = require('coderfly');
 
 // diff
 const functionDiffInfo = diff();

@@ -1,17 +1,13 @@
 #!/usr/bin/env node
-
-import fs from 'fs';
-import path from 'path';
-import { program } from 'commander';
-import { createRequire } from "module";
-import ora from 'ora';
-import { diff, getAllFiles, getFuncTree, getImpacts } from '../dist/index.js';
-const require = createRequire(import.meta.url);
+const fs = require('fs');
+const path = require('path');
+const { program }  = require('commander');
+const ora = require('ora');
+const { diff, getAllFiles, getFuncTree, getImpacts } = require('../dist/index.js');
 const pkg = require('../package.json');
+const { CONFIG_FILENAME, TREE_FILE, REPORT_FILE } = require('../dist/const.js');
+const { parseAliasFromConfig, lookFileOrFolderUp } = require('../dist/utils/handle_config');
 
-const CONFIG_FILENAME = '.coderflyrc';
-const TREE_FILE = path.resolve(process.cwd(), './file_tree.json');
-const REPORT_FILE = path.resolve(process.cwd(), './impact_report.json');
 const newsBoy = ora();
 
 program
@@ -109,40 +105,3 @@ function parseAliasFromOptions (alias) {
 
     return result;
 }
-
-function parseAliasFromConfig (config) {
-    Object.keys(config).forEach(alias => {
-        config[alias] = path.resolve(process.cwd(), config[alias]);
-    });
-
-    return config;
-}
-
-function lookFileOrFolderUp (target, baseDir) {
-    const cwd = process.cwd();
-    let oldPath = '';
-    let newPath;
-
-    if (baseDir) {
-        if (path.isAbsolute(baseDir)) {
-            newPath = baseDir;
-        } else {
-            newPath = path.resolve(cwd, baseDir);
-        }
-    } else {
-        newPath = cwd;
-    }
-
-    while (oldPath !== newPath) {
-        oldPath = newPath;
-        const files = fs.readdirSync(newPath);
-        for (const file of files) {
-            if (file === target) {
-                return newPath;
-            }
-        }
-        newPath = path.dirname(oldPath);
-    }
-    return '';
-};
-

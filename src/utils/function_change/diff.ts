@@ -1,9 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { execaCommandSync } from 'execa';
+import { commandSync } from 'execa';
 import lineByLine from 'n-readlines';
 import { parse, visit } from 'recast';
-import { createRequire } from 'module';
 import { parseComponent } from 'vue-template-compiler';
 import { DiffFunctionInfo, FunctionInfo } from '../../type';
 
@@ -23,7 +22,7 @@ export function getFunctionDiffInfo (filePath: string, commitSha?: string) {
         // treat it as a new file
         functionInfoBefore = {};
     } else {
-        const beforeCtx = execaCommandSync(`git cat-file blob ${blobId}`).stdout;
+        const beforeCtx = commandSync(`git cat-file blob ${blobId}`).stdout;
         const tempFile = `./temp_${path.posix.basename(filePath)}`;
         fs.writeFileSync(tempFile, beforeCtx);
         functionInfoBefore = getFunctionBlock(tempFile);
@@ -70,7 +69,6 @@ function getFunctionBlock (filePath: string) {
     }
 
     try {
-        const require = createRequire(import.meta.url);
         ast = parse(code, {
             parser: require('recast/parsers/babel'),
         });
@@ -214,7 +212,7 @@ function getFileCtxBeforeChange (filePath: string, commitSha?: string) {
         commitSha = latestCommitSha();
     }
 
-    const gitBlobs = execaCommandSync(`git ls-tree -r ${commitSha}`).stdout;
+    const gitBlobs = commandSync(`git ls-tree -r ${commitSha}`).stdout;
     const blobArr = gitBlobs.split('\n');
 
     for (const blobItem of blobArr) {
@@ -226,5 +224,5 @@ function getFileCtxBeforeChange (filePath: string, commitSha?: string) {
 }
 
 function latestCommitSha () {
-    return execaCommandSync('git rev-parse HEAD').stdout;
+    return commandSync('git rev-parse HEAD').stdout;
 }

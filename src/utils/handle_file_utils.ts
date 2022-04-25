@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { createRequire } from 'module';
 import { parse, visit } from 'recast';
 import { parseComponent, compile } from 'vue-template-compiler';
 import lineByLine from 'n-readlines';
@@ -16,7 +15,6 @@ import {
 } from '../type';
 import { getTemplateInfo } from './parse_template_ast.js';
 
-const require = createRequire(import.meta.url);
 const { create } = require('enhanced-resolve');
 
 function getAllFiles (folderPath: string): string[] {
