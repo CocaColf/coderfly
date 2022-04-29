@@ -72,9 +72,7 @@ function findWhoCallMe (treeData: FileInfoTree, funcInfo: ImpactReason, reportIn
 
     for (const fileInfo in treeData) {
         // these found functions are used to find the impact of template
-        const templateImpactSearchFunc: NameAndPath = {
-            [funcName]: curFilePath
-        };
+        const templateImpactSearchFunc: NameAndPath = {};
 
         const allFuncsInfo = treeData[fileInfo].allFuncsInfo;
         const templateKeyInfo = treeData[fileInfo].templateKeyInfo;
