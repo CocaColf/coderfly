@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { parse, visit } from 'recast';
+import { visit } from 'recast';
+import { parse } from '@babel/parser';
 import { parseComponent, compile } from 'vue-template-compiler';
 import lineByLine from 'n-readlines';
 import { ALLOW_EXT, IS_TOP_SCOPE, UN_KNOWN } from '../const.js';
@@ -187,8 +188,15 @@ function getFileAst (filePath: string): FileAstInfo {
 
     try {
         jsAst = parse(fileCtx, {
-            parser: require('recast/parsers/babel')
+            plugins: [
+                'decorators-legacy',
+                'typescript',
+                'classProperties',
+                'objectRestSpread'
+            ],
+            sourceType: 'unambiguous'
         });
+
         templateAst = compile(templateCtx);
     } catch (error) {
         console.log(`ast解析错误：${filePath}`);
@@ -239,8 +247,14 @@ function getAllFunctions (jsAst: any, filePath: string, vueScriptStartLine: numb
 
         // handle: function test () {}
         visitFunctionDeclaration(node) {
-            let name = node.value.id.name;
+            let name = '';
             let position!: string;
+
+            if (!node.value.id) {
+                name = '[Anonymous]'
+            } else {
+                name = node.value.id.name;
+            }
             
             // this means this function is called directly in the js file,not in a function block
             if (name === '') {

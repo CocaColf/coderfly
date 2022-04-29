@@ -40,12 +40,13 @@
 
 配置文件：
 
-你也可以编写 `.coderflyrc` 配置文件，这样更方便 alias 的书写。注意：**这个文件要编写为 json 形式**。
+你也可以编写 `.coderflyrc.js` 配置文件，这样更方便 alias 的书写。
 
 ```js
-// .coderflyrc
-{
-    "src": "./test",
+// .coderflyrc.js
+const path = require('path');
+module.exports = {
+    'src': path.resolve(process.cwd(), 'test'),
     // ...
 }
 ```
@@ -157,10 +158,10 @@ console.log(impacts);
 
 ## 支持
 
-- JavaScript
-- Vue2
+- [x] JavaScript
+- [x] Vue2
+- [x] TypeScript
 - [ ] Vue3
-- [ ] TypeScript
 
 ## 如何工作的
 

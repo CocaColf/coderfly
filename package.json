@@ -31,6 +31,10 @@
   },
   "dependencies": {
     "@babel/parser": "^7.17.8",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.17.3",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
     "@types/lodash-es": "^4.17.6",
     "commander": "^9.1.0",
     "enhanced-resolve": "^5.9.2",

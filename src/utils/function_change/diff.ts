@@ -2,7 +2,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { commandSync } from 'execa';
 import lineByLine from 'n-readlines';
-import { parse, visit } from 'recast';
+import { visit } from 'recast';
+import { parse } from '@babel/parser';
 import { parseComponent } from 'vue-template-compiler';
 import { DiffFunctionInfo, FunctionInfo } from '../../type';
 
@@ -70,7 +71,13 @@ function getFunctionBlock (filePath: string) {
 
     try {
         ast = parse(code, {
-            parser: require('recast/parsers/babel'),
+            plugins: [
+                'decorators-legacy',
+                'typescript',
+                'classProperties',
+                'objectRestSpread'
+            ],
+            sourceType: 'unambiguous'
         });
     } catch (error) {
         console.log(error);

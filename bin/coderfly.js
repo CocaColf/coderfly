@@ -6,7 +6,7 @@ const ora = require('ora');
 const { diff, getAllFiles, getFuncTree, getImpacts } = require('../dist/index.js');
 const pkg = require('../package.json');
 const { CONFIG_FILENAME, TREE_FILE, REPORT_FILE } = require('../dist/const.js');
-const { parseAliasFromConfig, lookFileOrFolderUp } = require('../dist/utils/handle_config');
+const { lookFileOrFolderUp } = require('../dist/utils/handle_config');
 
 const newsBoy = ora();
 
@@ -32,8 +32,7 @@ program
                 let configFile = path.resolve(configFolder, CONFIG_FILENAME);
 
                 try {
-                    let config = JSON.parse(fs.readFileSync(configFile));
-                    alias = parseAliasFromConfig(config);
+                    alias = require(configFile);
                 } catch (error){
                     // do nothing
                 }

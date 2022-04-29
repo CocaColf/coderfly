@@ -66,16 +66,16 @@ function findWhoCallMe (treeData: FileInfoTree, funcInfo: ImpactReason, reportIn
     const funcName = funcInfo.name;
     const curPaths = funcInfo.paths;
 
-    // these found functions are used to find the impact of template
-    const templateImpactSearchFunc: NameAndPath = {
-        [funcName]: curFilePath
-    };
-
     // because the mixin function is mixed into each file,it wil be found multiple times
     // so we need a set
     const set = new Set();
 
     for (const fileInfo in treeData) {
+        // these found functions are used to find the impact of template
+        const templateImpactSearchFunc: NameAndPath = {
+            [funcName]: curFilePath
+        };
+
         const allFuncsInfo = treeData[fileInfo].allFuncsInfo;
         const templateKeyInfo = treeData[fileInfo].templateKeyInfo;
 
@@ -100,6 +100,10 @@ function findWhoCallMe (treeData: FileInfoTree, funcInfo: ImpactReason, reportIn
                 });
 
                 templateImpactSearchFunc[func.name] = func.filePath;
+            }
+
+            if (func.name === funcName && func.filePath === curFilePath) {
+                templateImpactSearchFunc[funcName] = curFilePath;
             }
         });
 

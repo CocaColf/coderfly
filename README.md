@@ -42,12 +42,13 @@ Options:
 
 Configuration file:
 
-You can also write configuration file named `.coderflyrc`, mainly to simplify alias. Note: **It must be written in json form**.
+You can also write configuration file named `.coderflyrc.js`, mainly to simplify alias. 
 
 ```js
-// .coderflyrc
-{
-    "src": "./test",
+// .coderflyrc.js
+const path = require('path');
+module.exports = {
+    'src': path.resolve(process.cwd(), 'test'),
     // ...
 }
 ```
@@ -158,8 +159,8 @@ console.log(impacts);
 
 - [x] JavaScript
 - [x] Vue2
+- [x] TypeScript
 - [ ] Vue3
-- [ ] TypeScript
 
 ## how it works
 
