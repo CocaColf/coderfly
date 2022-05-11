@@ -1,4 +1,4 @@
-import { TEXT_NODE_TYPES } from './const.js';
+import { TEXT_NODE_TYPES, UN_KNOWN } from './const.js';
 import { 
     FileInfoTree, 
     FuncCallSearchResult, 
@@ -13,11 +13,18 @@ import { handleCircularPath } from './utils/handle_circular_path.js';
 function getImpacts (treeData: FileInfoTree, funcInfo: ImpactReason) {
     let templateImpact = [] as TemplateImpactResult[];
 
+    let mainFuncPosition = UN_KNOWN;
+    try {
+        mainFuncPosition = treeData[funcInfo.filePath]['allFuncsInfo'][funcInfo.name].position;
+    } catch (error) {}
+
     // function entrance
     const main = {
         name: funcInfo.name,
         file: funcInfo.filePath,
+        position: mainFuncPosition,
     };
+    funcInfo.paths[0].push(mainFuncPosition);
 
     let callList = [funcInfo] as ImpactReason[];
     const impactReport = [];
