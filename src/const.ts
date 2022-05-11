@@ -1,6 +1,7 @@
 import path from "path";
 
 export const ALLOW_EXT = ['.vue', '.js', '.ts'];
+export const TS_DECLARATION_EXT = '.d.ts';
 export const UN_KNOWN = 'unknown';
 export const IS_TOP_SCOPE = '[is_top_scope]';
 

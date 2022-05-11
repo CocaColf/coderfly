@@ -4,7 +4,7 @@ import { visit } from 'recast';
 import { parse } from '@babel/parser';
 import { parseComponent, compile } from 'vue-template-compiler';
 import lineByLine from 'n-readlines';
-import { ALLOW_EXT, IS_TOP_SCOPE, UN_KNOWN } from '../const.js';
+import { ALLOW_EXT, IS_TOP_SCOPE, TS_DECLARATION_EXT, UN_KNOWN } from '../const.js';
 import { 
     AllFuncsInfo, 
     FileAstInfo, 
@@ -33,7 +33,7 @@ function getAllFiles (folderPath: string): string[] {
             const absolutePath = path.resolve(folderPath, files[i]);
 
             if (fs.statSync(absolutePath).isFile()) {
-                ALLOW_EXT.includes(path.extname(absolutePath)) && fileList.push(absolutePath);
+                isAllowExt(absolutePath) && fileList.push(absolutePath);
             } else {
                 dfs(absolutePath);
             }
@@ -457,9 +457,15 @@ function getVueScriptRealStartLine (filePath: string) {
     return 0;
 }
 
+function isAllowExt (filePath: string) {
+    return ALLOW_EXT.includes(path.extname(filePath)) && filePath.indexOf(TS_DECLARATION_EXT) === -1;
+}
+
+
 export {
     getFileInfo,
     getVueScriptRealStartLine,
     getFuncTree,
     getAllFiles,
+    isAllowExt,
 };

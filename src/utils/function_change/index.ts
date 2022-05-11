@@ -1,6 +1,5 @@
-import path from "path";
-import { ALLOW_EXT } from "../../const.js";
 import { DiffInfo } from "../../type";
+import { isAllowExt } from "../handle_file_utils.js";
 import { getFunctionDiffInfo } from "./diff.js";
 import { getFileChange } from "./file_change.js";
 
@@ -13,7 +12,7 @@ export function diff () {
         const files = changedList[changeType];
 
         for (const file of files) {
-            if (!ALLOW_EXT.includes(path.extname(file))) continue;
+            if (!isAllowExt(file)) continue;
 
             result.push({
                 file,
