@@ -192,7 +192,8 @@ function getFileAst (filePath: string): FileAstInfo {
                 'decorators-legacy',
                 'typescript',
                 'classProperties',
-                'objectRestSpread'
+                'objectRestSpread',
+                'jsx',
             ],
             sourceType: 'unambiguous'
         });

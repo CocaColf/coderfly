@@ -75,7 +75,8 @@ function getFunctionBlock (filePath: string) {
                 'decorators-legacy',
                 'typescript',
                 'classProperties',
-                'objectRestSpread'
+                'objectRestSpread',
+                'jsx',
             ],
             sourceType: 'unambiguous'
         });
