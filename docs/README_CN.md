@@ -61,6 +61,17 @@ module.exports = {
 
 ## API 
 
+### coderfly
+
+API集大成者，如果不需要自己字定义过程，用这个一步到位即可.
+
+**Params**
+
+- srcPath: string. It's source code folder path
+
+**Params**
+
+- srcPath: string，源码文件夹路径
 ### diff
 
 根据本地文件变动，输出函数修改情况。

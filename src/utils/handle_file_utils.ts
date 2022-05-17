@@ -4,7 +4,7 @@ import { visit } from 'recast';
 import { parse } from '@babel/parser';
 import { parseComponent, compile } from 'vue-template-compiler';
 import lineByLine from 'n-readlines';
-import { ALLOW_EXT, IS_TOP_SCOPE, TS_DECLARATION_EXT, UN_KNOWN } from '../const.js';
+import { ALLOW_EXT, CODERFLY_FOLDER, IS_TOP_SCOPE, TS_DECLARATION_EXT, UN_KNOWN } from '../const.js';
 import { 
     AllFuncsInfo, 
     FileAstInfo, 
@@ -462,6 +462,11 @@ function isAllowExt (filePath: string) {
     return ALLOW_EXT.includes(path.extname(filePath)) && filePath.indexOf(TS_DECLARATION_EXT) === -1;
 }
 
+function confirmFolderExist () {
+    if (!fs.existsSync(CODERFLY_FOLDER)) {
+        fs.mkdirSync(CODERFLY_FOLDER);
+    }
+}
 
 export {
     getFileInfo,
@@ -469,4 +474,5 @@ export {
     getFuncTree,
     getAllFiles,
     isAllowExt,
+    confirmFolderExist,
 };

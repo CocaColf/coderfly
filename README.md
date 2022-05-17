@@ -61,6 +61,13 @@ module.exports = {
 see the [API](#api) or [Example](#example).
 ## API
 
+### coderfly
+
+The API for the complete process is included, use this for a one-step process if you don't need control the process yourself.
+
+**Params**
+
+- srcPath: string. It's source code folder path
 ### diff
 
 Get the changes of the function by the changes of the file.
@@ -124,6 +131,21 @@ Since the use of `vue-template-compiler` must be consistent with the `vue` versi
 
 ## Example
 
+**Easy to use**
+
+```js
+// if necessary
+const { matchVueVersion } = require('coderfly/dist/match_version');
+
+matchVueVersion();
+
+const { coderfly } = require('coderfly');
+
+coderfly('./src');
+```
+
+
+**If you want you control the process yourself**
 ```js
 // if necessary
 const { matchVueVersion } = require('coderfly/dist/match_version');
