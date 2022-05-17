@@ -1,8 +1,17 @@
 import { commandSync } from "execa";
+import fs from 'fs';
 import path from "path";
+import { MATCHED_VUE } from "./const.js";
 import { lookFileOrFolderUp } from "./utils/handle_config.js";
+import { confirmFolderExist } from "./utils/handle_file_utils.js";
 
 export function matchVueVersion () {
+    confirmFolderExist();
+
+    if (fs.existsSync(MATCHED_VUE)) {
+        return;
+    }
+
     let vueVersion = 'latest';
     let vueTemplateCompilerVersion = '';
 
@@ -27,4 +36,6 @@ export function matchVueVersion () {
         try { commandSync('npm uninstall vue-template-compiler') } catch {}
         commandSync(`npm install vue-template-compiler@${vueVersion}`);
     }
+
+    fs.writeFileSync(MATCHED_VUE, 'true');
 }

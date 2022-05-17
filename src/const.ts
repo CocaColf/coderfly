@@ -14,3 +14,4 @@ export const CONFIG_FILENAME = '.coderflyrc.js';
 export const MATCHED_VUE = path.resolve(CODERFLY_FOLDER, 'matched_vue');
 export const TREE_FILE = path.resolve(CODERFLY_FOLDER, 'file_tree.json');
 export const REPORT_FILE = path.resolve(CODERFLY_FOLDER, 'impact_report.json');
+export const FILE_MODIFY_DETAIL = path.resolve(CODERFLY_FOLDER, 'file_modify_detail.json');

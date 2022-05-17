@@ -112,3 +112,12 @@ export interface FileAstInfo {
     extName: string;
     vueScriptStartLine: number;  // vue script 开始行数
 }
+
+export interface GetFileInfoWorkerData {
+    files: string[];
+    fileModifyDetail: {
+        [filePath: string]: number;
+    };
+    tree: FileInfoTree;
+    options?: GetTreeOptions;
+}

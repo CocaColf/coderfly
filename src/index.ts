@@ -28,7 +28,7 @@ async function coderfly (srcPath: string) {
 
     const files = getAllFiles(path.resolve(process.cwd(), srcPath));
 
-    const tree = getFuncTree(files, {
+    const tree = await getFuncTree(files, {
         alias
     });
 

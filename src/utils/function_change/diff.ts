@@ -6,6 +6,7 @@ import { visit } from 'recast';
 import { parse } from '@babel/parser';
 import { parseComponent } from 'vue-template-compiler';
 import { DiffFunctionInfo, FunctionInfo } from '../../type';
+import { nanoid } from 'nanoid';
 
 // get the change of function before and after file change 
 export function getFunctionDiffInfo (filePath: string, commitSha?: string) {
@@ -60,7 +61,7 @@ function getFunctionBlock (filePath: string) {
     const extName = path.extname(filePath);
 
     let ast;
-    const tempFile = path.resolve(process.cwd(), 'temp_vue_script.js');
+    const tempFile = path.resolve(process.cwd(), `temp_vue_script_${nanoid(10)}.js`);
 
     if (extName === '.vue') {
         const compilerResult = parseComponent(code);

@@ -4,7 +4,7 @@ import { visit } from 'recast';
 import { parse } from '@babel/parser';
 import { parseComponent, compile } from 'vue-template-compiler';
 import lineByLine from 'n-readlines';
-import { ALLOW_EXT, CODERFLY_FOLDER, IS_TOP_SCOPE, TS_DECLARATION_EXT, UN_KNOWN } from '../const.js';
+import { ALLOW_EXT, CODERFLY_FOLDER, IS_TOP_SCOPE, TREE_FILE, TS_DECLARATION_EXT, UN_KNOWN } from '../const.js';
 import { 
     AllFuncsInfo, 
     FileAstInfo, 
@@ -15,6 +15,7 @@ import {
     TemplateKeyInfo 
 } from '../type';
 import { getTemplateInfo } from './parse_template_ast.js';
+import { getFileInfoWorker } from '../worker/run_worker.js';
 
 const { create } = require('enhanced-resolve');
 
@@ -45,13 +46,8 @@ function getAllFiles (folderPath: string): string[] {
     return fileList;
 }
 
-function getFuncTree (files: string[], options?: GetTreeOptions): FileInfoTree {
-    const tree: FileInfoTree = {};
-
-    for (const file of files) {
-        const fileInfo = getFileInfo(file, options);
-        tree[file] = fileInfo;
-    }
+async function getFuncTree (files: string[], options?: GetTreeOptions): Promise<FileInfoTree> {
+    const tree = await getFileInfoWorker(files, options);
 
     for (const file in tree) {
         const fileInfo = tree[file];
@@ -123,6 +119,8 @@ function getFuncTree (files: string[], options?: GetTreeOptions): FileInfoTree {
             }
         });
     }
+
+    fs.writeFileSync(TREE_FILE, JSON.stringify(tree, null, 4));
 
     return tree;
 }
