@@ -42,7 +42,7 @@ function getFileLinesString (filePath: string, start: number, end: number): stri
     let line = liner.next();
 
     while (line) {
-        if (lineNumber >= start && lineNumber <= end) {
+        if (lineNumber >= (start - 1) && lineNumber <= (end - 1)) {
             result.push(line.toString());
         }
 
