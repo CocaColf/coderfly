@@ -48,7 +48,7 @@ You can also write configuration file named `.coderflyrc.js`, mainly to simplify
 // .coderflyrc.js
 const path = require('path');
 module.exports = {
-    'src': path.resolve(process.cwd(), 'test'),
+    'src': path.resolve(__dirname, 'test'),
     // ...
 }
 ```
@@ -63,126 +63,27 @@ see the [API](#api) or [Example](#example).
 
 ### coderfly
 
-The API for the complete process is included, use this for a one-step process if you don't need control the process yourself.
+The API for the complete process is included, use this for a one-step process.
 
 **Params**
 
 - srcPath: string. It's source code folder path
-### diff
-
-Get the changes of the function by the changes of the file.
-
-If you changed `test/a.js`, you can get the following result by diff.
-
-```js
-{
-    file: 'test/a.js',
-    changed: ['getSum'],
-    added: [],
-    deleted: ['getData'],
-    total: ['getSum', 'getData']
-}
-```
-
-### getAllFiles
-
-Get all files from source code, filter by default for non-`.vue`、`.js`、`.ts` files.
-
-**Params**
-
-- folderPath: string. It's source code folder path.
-
-### getFuncTree
-
-Analyze the project and build a 「file tree」.
-
-**Params**
-
-- files: string[]. All the files from folder path
-- options: Options
-
-```ts
-interface Options {
-    alias?: {
-        [aliasName: string]: string  // alias name and path
-    };
-}
-```
-
-### getImpacts**
-
-Get the impact of changes.
-
-**Params**
-
-- treeData: FileInfoTree. It's file tree.
-- funcInfo: ImpactReason. It's the entry function that we get by diff.
-
-```ts
-interface ImpactReason {
-    filePath: string;
-    name: string;
-}
-```
-
-### matchVueVersion
-
-Since the use of `vue-template-compiler` must be consistent with the `vue` version, otherwise an error will be reported, you must keep them both consistent before using `coderfly`. You can either manually install the corresponding version of `vue-template-compiler` in your project yourself, or you can use the API to do this in your code. Note that this operation needs to be called before using the other APIs.
 
 ## Example
 
 **Easy to use**
 
 ```js
-// if necessary
-const { matchVueVersion } = require('coderfly/dist/match_version');
-
-matchVueVersion();
-
 const { coderfly } = require('coderfly');
 
 coderfly('./src');
 ```
-
-
-**If you want you control the process yourself**
-```js
-// if necessary
-const { matchVueVersion } = require('coderfly/dist/match_version');
-
-matchVueVersion();
-
-const { diff, getAllFiles, getFuncTree, getImpacts } = require('coderfly');
-
-// diff
-const functionDiffInfo = diff();
-
-// get all files
-const files = getAllFiles(path.resolve(process.cwd(), targetDir));
-
-// build file tree
-const tree = getFuncTree(files, {
-    alias: {
-        src: path.resolve(process.cwd(), './demo/vue')
-    }
-});
-
-// get impacts
-// here is just a example, in the real word the second argument needs constructed using the result of diff()
-let impacts = getImpacts(tree, {
-    filePath: 'src/utils/a.js',
-    name: 'getSum'
-});
-
-console.log(impacts);
-```
-
 ## Support
 
 - [x] JavaScript
 - [x] Vue2
 - [x] TypeScript
-- [ ] Vue3
+- [x] Vue3
 
 ## how it works
 

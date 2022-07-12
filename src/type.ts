@@ -1,4 +1,4 @@
-import { CompiledResult } from "vue-template-compiler";
+import { CompiledResult } from "./coderfly_vue_compiler/index";
 
 /*** diff file 相关 ***/
 export interface DiffFileInfo {

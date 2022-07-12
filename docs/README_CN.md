@@ -67,104 +67,14 @@ API集大成者，如果不需要自己字定义过程，用这个一步到位�
 
 **Params**
 
-- srcPath: string. It's source code folder path
-
-**Params**
-
 - srcPath: string，源码文件夹路径
-### diff
-
-根据本地文件变动，输出函数修改情况。
-
-假如修改了 `test/a.js`，通过 diff 可以获得下面的结果
-
-```js
-{
-    file: 'test/a.js',
-    changed: ['getSum'],
-    added: [],
-    deleted: ['getData'],
-    total: ['getSum', 'getData']
-}
-```
-
-### getAllFiles
-
-获取项目所有文件，默认过滤非 `.vue`、`.js`、`.ts` 文件
-
-**Params**
-
-- folderPath: string，源码文件夹路径
-
-### getFuncTree
-
-分析项目文件，构建「文件树」
-
-**Params**
-
-- files: string[], 所有源码文件
-- options: Options, 配置
-
-```ts
-interface Options {
-    alias?: {
-        [aliasName: string]: string  // alias name and path
-    };
-}
-```
-
-### getImpacts
-
-分析改动影响
-
-**Params**
-
-- treeData: FileInfoTree, 文件树数据
-- funcInfo: ImpactReason, 被搜索的入口函数
-
-```ts
-interface ImpactReason {
-    filePath: string;
-    name: string;
-}
-```
-
-### matchVueVersion
-
-由于 `vue-template-compiler` 的使用必须保持和 `vue` 版本一致，否则会报错，因此在使用 `coderfly` 前必须将二者保持一致。你可以自己手动在项目中安装对应的 `vue-template-compiler` 版本，也可以使用该 API 在代码中完成此操作。注意此操作需要在使用其他 API 之前调用
-
 
 ## 示例
 
 ```js
-// 如果有必要
-const { matchVueVersion } = require('coderfly/dist/match_version');
+const { coderfly } = require('coderfly');
 
-matchVueVersion();
-
-const { diff, getAllFiles, getFuncTree, getImpacts } = require('coderfly');
-
-// diff
-const functionDiffInfo = diff();
-
-// 获取所有文件信息
-const files = getAllFiles(path.resolve(process.cwd(), targetDir));
-
-// 构建文件树
-const tree = getFuncTree(files, {
-    alias: {
-        src: path.resolve(process.cwd(), './demo/vue')
-    }
-});
-
-// 输出改动影响
-// 这里使用一个示例来说明，真实情况下需要使用 diff() 的返回结果来构造 getImpacts 的第二个参数
-let impacts = getImpacts(tree, {
-    filePath: 'src/utils/a.js',
-    name: 'getSum'
-});
-
-console.log(impacts);
+coderfly('./src');
 ```
 
 ## 支持
@@ -172,7 +82,7 @@ console.log(impacts);
 - [x] JavaScript
 - [x] Vue2
 - [x] TypeScript
-- [ ] Vue3
+- [x] Vue3
 
 ## 如何工作的
 

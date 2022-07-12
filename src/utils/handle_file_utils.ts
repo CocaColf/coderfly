@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { visit } from 'recast';
 import { parse } from '@babel/parser';
-import { parseComponent, compile } from 'vue-template-compiler';
+import { parseComponent, compile } from '../coderfly_vue_compiler/index.js';
 import lineByLine from 'n-readlines';
 import { ALLOW_EXT, CODERFLY_FOLDER, IS_TOP_SCOPE, TREE_FILE, TS_DECLARATION_EXT, UN_KNOWN } from '../const.js';
 import { 

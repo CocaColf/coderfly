@@ -17,7 +17,7 @@
     "url": "https://github.com/CocaColf/coderfly"
   },
   "scripts": {
-    "build": "rm -rf dist/ && tsc && find ./dist -type f|xargs dos2unix",
+    "build": "rm -rf dist/ && tsc && node ./copy_files.js  && find ./dist -type f|xargs dos2unix",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"
   },
@@ -35,15 +35,14 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.17.3",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
-    "@types/lodash-es": "^4.17.6",
     "commander": "^9.1.0",
+    "de-indent": "^1.0.2",
     "enhanced-resolve": "^5.9.2",
     "execa": "5.1.1",
-    "lodash-es": "^4.17.21",
+    "he": "^1.2.0",
     "n-readlines": "^1.0.1",
     "nanoid": "^3.3.4",
     "ora": "5.4.1",
-    "recast": "^0.20.5",
-    "vue-template-compiler": "^2.6.14"
+    "recast": "^0.20.5"
   }
 }

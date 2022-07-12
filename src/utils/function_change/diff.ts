@@ -4,7 +4,7 @@ import { commandSync } from 'execa';
 import lineByLine from 'n-readlines';
 import { visit } from 'recast';
 import { parse } from '@babel/parser';
-import { parseComponent } from 'vue-template-compiler';
+import { parseComponent } from '../../coderfly_vue_compiler/index.js';
 import { DiffFunctionInfo, FunctionInfo } from '../../type';
 import { nanoid } from 'nanoid';
 

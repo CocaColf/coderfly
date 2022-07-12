@@ -1,4 +1,4 @@
-import { ASTElement, ASTElementHandler, ASTNode } from "vue-template-compiler";
+import { ASTElement, ASTElementHandler, ASTNode } from "../coderfly_vue_compiler/index.js";
 import { MUSTACHE_TAG_REG, TEXT_NODE_TYPES } from "../const.js";
 import { NameAndPath, TemplateKeyInfo } from "../type";
 
