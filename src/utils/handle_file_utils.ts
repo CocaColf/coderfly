@@ -177,7 +177,7 @@ function getFileAst (filePath: string): FileAstInfo {
         const compilerResult = parseComponent(fileCtx);
         if (compilerResult.script) {
             fileCtx = compilerResult.script.content;
-            vueScriptStartLine = getVueScriptRealStartLine(filePath) + 1;
+            vueScriptStartLine = getVueScriptRealStartLine(filePath);
         } else {
             fileCtx = '';
         }
