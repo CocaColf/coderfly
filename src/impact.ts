@@ -1,3 +1,4 @@
+import path from 'path';
 import { TEXT_NODE_TYPES, UN_KNOWN } from './const.js';
 import { 
     FileInfoTree, 
@@ -21,9 +22,10 @@ function getImpacts (treeData: FileInfoTree, funcInfo: ImpactReason) {
     // function entrance
     const main = {
         name: funcInfo.name,
-        file: funcInfo.filePath,
+        file: path.relative(process.cwd(), funcInfo.filePath),
         position: mainFuncPosition,
     };
+    funcInfo.paths[0][1] = path.relative(process.cwd(), funcInfo.paths[0][1]);
     funcInfo.paths[0].push(mainFuncPosition);
 
     let callList = [funcInfo] as ImpactReason[];
@@ -96,7 +98,7 @@ function findWhoCallMe (treeData: FileInfoTree, funcInfo: ImpactReason, reportIn
 
                 // collect call paths
                 const paths = [...curPaths];
-                paths.push([func.name, func.filePath, func.position]);
+                paths.push([func.name, path.relative(process.cwd(), func.filePath), func.position]);
 
                 theyCallYou.push({ 
                     filePath: func.filePath,
@@ -130,7 +132,7 @@ function findWhoCallMe (treeData: FileInfoTree, funcInfo: ImpactReason, reportIn
                 templateFragmentCache.push(cache);
 
                 reportInfo.push({
-                    filePath: treeData[fileInfo].file,
+                    filePath: path.relative(process.cwd(), treeData[fileInfo].file),
                     domInfo
                 });
             }
