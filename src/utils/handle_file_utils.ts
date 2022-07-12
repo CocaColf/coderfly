@@ -107,7 +107,7 @@ async function getFuncTree (files: string[], options?: GetTreeOptions): Promise<
                     }
                 } else if (allFunctionBelongToCurrentFile.includes(fn)) {  // the called function is defined in this file
                     allFuncsInfo[currentFnName]['calledFnFrom'][fn] = {
-                        filePath: file,
+                        filePath: allFuncsInfo[fn].filePath,
                         position: allFuncsInfo[fn].position
                     };
                 } else {
@@ -430,6 +430,28 @@ function getMixin (jsAst: any) {
                     return ele.name;
                 });
             }
+            return false;
+        },
+
+        // for vue-property-decorator
+        visitExportDefaultDeclaration (node) {
+            const decorators = node.value.declaration?.decorators || [];
+            for (const decorator of decorators) {
+                if (!decorator.expression || !decorator.expression.callee || decorator.expression.callee.name !== 'Component') continue;
+
+                const decoratorArguments = decorator.expression?.arguments || [];
+                for (const argumentItem of decoratorArguments) {
+                    for (const propertyItem of argumentItem.properties) {
+                        if (propertyItem.key.name !== 'mixins') continue;
+
+                        const elements = propertyItem.value?.elements || [];
+                        elements.forEach((ele: any) => {
+                            ele.name && list.push(ele.name);
+                        });
+                    }
+                }
+            }
+
             return false;
         }
     });
