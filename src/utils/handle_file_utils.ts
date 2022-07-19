@@ -4,7 +4,7 @@ import { visit } from 'recast';
 import { parse } from '@babel/parser';
 import { parseComponent, compile } from '../coderfly_vue_compiler/index.js';
 import lineByLine from 'n-readlines';
-import { ALLOW_EXT, CODERFLY_FOLDER, IS_TOP_SCOPE, TREE_FILE, TS_DECLARATION_EXT, UN_KNOWN } from '../const.js';
+import { ALLOW_EXT, CODERFLY_FOLDER, IGNORE_DIRS, IS_TOP_SCOPE, TREE_FILE, TS_DECLARATION_EXT, UN_KNOWN } from '../const.js';
 import { 
     AllFuncsInfo, 
     FileAstInfo, 
@@ -36,7 +36,9 @@ function getAllFiles (folderPath: string): string[] {
             if (fs.statSync(absolutePath).isFile()) {
                 isAllowExt(absolutePath) && fileList.push(absolutePath);
             } else {
-                dfs(absolutePath);
+                if (!IGNORE_DIRS.includes(absolutePath)) {
+                    dfs(absolutePath);
+                }
             }
         }
     }
