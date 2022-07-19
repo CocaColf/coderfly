@@ -121,3 +121,9 @@ export interface GetFileInfoWorkerData {
     tree: FileInfoTree;
     options?: GetTreeOptions;
 }
+
+export interface FuncTreeParam {
+    srcPath: string;
+    files: string[];
+    options?: GetTreeOptions;
+}

@@ -10,6 +10,7 @@ import {
     FileAstInfo, 
     FileInfo, 
     FileInfoTree, 
+    FuncTreeParam, 
     GetTreeOptions, 
     NameAndPath, 
     TemplateKeyInfo 
@@ -48,8 +49,12 @@ function getAllFiles (folderPath: string): string[] {
     return fileList;
 }
 
-async function getFuncTree (files: string[], options?: GetTreeOptions): Promise<FileInfoTree> {
-    const tree = await getFileInfoWorker(files, options);
+async function getFuncTree (params: FuncTreeParam[]): Promise<FileInfoTree> {
+    const tree: FileInfoTree = {};
+    for (const item of params) {
+        const curTree = await getFileInfoWorker(item.files, item.options);
+        Object.assign(tree, curTree);
+    }
 
     for (const file in tree) {
         const fileInfo = tree[file];
